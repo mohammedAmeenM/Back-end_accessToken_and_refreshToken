@@ -1,0 +1,66 @@
+env file ---------
+
+/.env 
+
+PORT=4000
+DB_URL=mongodb://localhost:27017/token
+
+ACCESS_TOKEN_SECRET_KEY=540a6c8f2675a896969f3dd69774a71e36482c40e647b51850ed4f21ed2151ac
+REFRESH_TOKEN_SECRET_KEY=79d66569f606f552ea21e6e5b7fcf30af81a014e50519e23eb9296010eadb76b
+
+
+auth APIS---------
+
+1:- cerate user - POST
+
+http://localhost:4000/api/users/register   
+
+req.body 
+
+{
+    "name":"user",
+    "email":"user@gmail.com",
+    "password":"12345678"
+}
+
+2:- login user - POST
+
+http://localhost:4000/api/users/login  
+
+req.body
+
+{
+    "email":"user@gmail.com",
+    "password":"12345678"
+}
+
+3:- refreshToken - POST
+
+http://localhost:4000/api/users/refresh-token  
+
+req.body 
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUxODY5MTIwNWJmNjA2NDhhMmYxOWUiLCJpYXQiOjE3MTY2MTkxNzgsImV4cCI6MTcxOTIxMTE3OH0.EbDiFA0hTbonlKy3rghgE71yA6KCQySWWSDz6xXNYXs"
+}
+
+4:- logout user - POST 
+
+http://localhost:4000/api/users/logout  
+
+req.body 
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUxODY5MTIwNWJmNjA2NDhhMmYxOWUiLCJpYXQiOjE3MTY2MTkxNzgsImV4cCI6MTcxOTIxMTE3OH0.EbDiFA0hTbonlKy3rghgE71yA6KCQySWWSDz6xXNYXs"
+}
+
+5:- user Access  - GET
+
+http://localhost:4000/api/users/
+
+req.header
+
+authorization  -- [token]
+
+
+

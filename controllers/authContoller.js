@@ -36,7 +36,6 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "invalid username or password" });
     }
     const { accessToken, refreshToken } = await generateTokens(user);
-    console.log(accessToken);
     res.status(200).json({
       message: "Login successfully",
       accessToken,
@@ -48,20 +47,18 @@ const loginUser = async (req, res) => {
 };
 
 const refreshAccessToken = async (req, res) => {
-  const { refreshToken } = req.body;
-
+  const refreshToken = req.header("refreshToken");
+console.log(refreshToken)
   if (!refreshToken) {
     return res
       .status(403)
       .json({ message: "Access Denied: No token provided" });
   }
   try {
-    console.log("object");
     const { _id } = jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET_KEY
     );
-    console.log(_id, "hiiii");
     const userToken = await UserToken.findOne({
       userId: _id,
       token: refreshToken,
@@ -70,7 +67,7 @@ const refreshAccessToken = async (req, res) => {
       return res.status(403).json({ message: "Invalid refresh token" });
     }
     const accessToken = jwt.sign({ _id }, process.env.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: "14m",
+      expiresIn: "5m",
     });
     res.status(200).json({ accessToken });
   } catch (error) {
@@ -79,7 +76,7 @@ const refreshAccessToken = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  const { refreshToken } = req.body;
+  const refreshToken = req.header("refreshToken");
   if (!refreshToken) {
     return res.status(400).json({ message: "No token provided" });
   }
@@ -95,7 +92,7 @@ const logoutUser = async (req, res) => {
   }
 };
 
-module.exports = {
+module.exports = {     
   createUser,
   loginUser,
   refreshAccessToken,
